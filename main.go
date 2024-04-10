@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 func main() {
@@ -16,10 +17,18 @@ func main() {
 		if !info.IsDir() {
 			//is file
 			name := info.Name()
-			pattern := `[\w]{4,5}[-]{1}[\d]{1,4}`
+			pattern := `(hhd800.com@)+`
+			//(?i)((snis)|(ssni)|(dvdms)|(sdmua)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)|(fsdss)){1}[-]{0,1}[\d]{1,4}
+			//[\w]{3,5}[-]{0,1}[\d]{1,4}
 			match, err := regexp.MatchString(pattern, name)
 			if err == nil && match {
-				fmt.Println(name)
+				
+				renamed := strings.Replace(path, "hhd800.com@", "", 1)
+				fmt.Println(path + " => " + renamed)
+				err := os.Rename(path, renamed)
+				if err != nil {
+					fmt.Println(err.Error())
+				}
 			}
 		}
 		return nil
